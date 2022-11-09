@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ChatRoom from "./ChatRoom";
+import { auth } from "./firebase.config";
 
 function JoinRoom() {
     const [roomID, setRoomID] = useState("");

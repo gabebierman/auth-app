@@ -2,7 +2,7 @@ import React from "react";
 
 function ChatDisplay({ username, body, time, userColor }) {
     return (
-        <div>
+        <div style={{ margin: "2px" }}>
             <span style={{ color: userColor ?? "black", fontWeight: "bold" }}>
                 {username ?? "SYSTEM"}
             </span>

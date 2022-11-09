@@ -1,6 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
-import ChatDisplay from "./ChatDisplay";
 
 const useSocketHook = (roomID, username) => {
     // create socket connection
@@ -9,7 +8,7 @@ const useSocketHook = (roomID, username) => {
     useEffect(() => {
         if (!roomID || !username) return;
         // return conneciton outside of useEffect
-        socketRef.current = io("ws://localhost:8080", {
+        socketRef.current = io("http://localhost:8080", {
             query: {
                 username,
                 roomID,
