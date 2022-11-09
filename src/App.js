@@ -12,7 +12,10 @@ function App() {
         <>
             {auth.currentUser && (
                 <>
-                    <div>{auth.currentUser?.displayName}</div>
+                    <div>
+                        Currently signed in as: {auth.currentUser?.displayName} (
+                        {auth.currentUser?.email})
+                    </div>
                     <button onClick={() => auth.signOut()}>Sign Out</button>
                 </>
             )}

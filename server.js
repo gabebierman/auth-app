@@ -1,7 +1,7 @@
 const COLORS = require("./colors");
 const app = require("express")();
 const server = require("http").createServer(app);
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, { cors: { origin: "*" } });
 const PORT = process.env.PORT || 8080;
 
 io.on("connection", (socket) => {
@@ -17,7 +17,7 @@ io.on("connection", (socket) => {
 
     //tell room that user has joined
 
-    io.to(roomID).emit("user connect", { username });
+    io.to(roomID).emit("user connect", { username, time: new Date() });
 
     // handle when a user sends a message
 
