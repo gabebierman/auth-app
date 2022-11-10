@@ -14,20 +14,22 @@ const BANNED_WORDS = [
 io.on("connection", (socket) => {
     // how to determine which room they are joining
     // how to determine WHO they are or have that be provided by the FE
-
     const { roomID, username } = socket.handshake.query;
     const userColor = COLORS[Math.floor(Math.random() * COLORS.length)];
 
     // join desired room
-
     socket.join(roomID);
 
-    //tell room that user has joined
+    let roomCount = io.sockets.adapter.rooms.get(roomID)?.size;
+    if (roomCount && roomCount > 3) {
+        io.to(socket.id).emit("room full", { roomID });
+        return;
+    }
 
+    //tell room that user has joined
     io.to(roomID).emit("user connect", { username, time: new Date() });
 
     // handle when a user sends a message
-
     socket.on("new message", ({ body }) => {
         if (BANNED_WORDS.some((word) => body.toLowerCase().includes(word))) {
             io.to(socket.id).emit("banned message", {
@@ -42,7 +44,6 @@ io.on("connection", (socket) => {
     });
 
     // handle when a user disconnects
-
     socket.on("disconnect", () => {
         io.to(roomID).emit("user disconnect", { username });
     });

@@ -31,7 +31,7 @@ function ChatRoom() {
                     <ChatDisplay key={idx} {...m} />
                 ))}
             </div>
-            <div>
+            <form>
                 <label htmlFor="msg"></label>
                 <textarea
                     value={message}
@@ -47,7 +47,7 @@ function ChatRoom() {
                 >
                     send
                 </button>
-            </div>
+            </form>
         </div>
     );
 }

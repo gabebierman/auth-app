@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 
 const useSocketHook = (roomID, username) => {
     // create socket connection
     const socketRef = useRef(null);
     const [messages, setMessages] = useState([]);
+    const navigate = useNavigate();
     useEffect(() => {
         socketRef.current = io("http://localhost:8080", {
             query: {
@@ -24,6 +26,10 @@ const useSocketHook = (roomID, username) => {
         });
         socketRef.current.on("banned message", (msg) => {
             setMessages((curr) => [...curr, msg]);
+        });
+        socketRef.current.on("room full", () => {
+            console.log(`${roomID} is full`);
+            navigate("/join-room");
         });
 
         return () => socketRef.current?.disconnect();
