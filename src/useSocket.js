@@ -6,8 +6,6 @@ const useSocketHook = (roomID, username) => {
     const socketRef = useRef(null);
     const [messages, setMessages] = useState([]);
     useEffect(() => {
-        if (!roomID || !username) return;
-        // return conneciton outside of useEffect
         socketRef.current = io("http://localhost:8080", {
             query: {
                 username,
@@ -23,6 +21,9 @@ const useSocketHook = (roomID, username) => {
         });
         socketRef.current.on("user disconnect", ({ username, time }) => {
             setMessages((curr) => [...curr, { time, body: `${username} has disconnected` }]);
+        });
+        socketRef.current.on("banned message", (msg) => {
+            setMessages((curr) => [...curr, msg]);
         });
 
         return () => socketRef.current?.disconnect();
